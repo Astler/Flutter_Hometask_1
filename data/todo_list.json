@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "Hello",
+    "text": "World",
+    "type": "ToDoTypes.plain"
+  },
+  {
+    "id": 2,
+    "title": "Astler",
+    "text": "Astler is GOD!",
+    "type": "ToDoTypes.plain"
+  }
+]
