@@ -5,6 +5,8 @@ import 'dart:io';
 
 var appDataFile = '${Directory.current.path}\\data\\app_data.json';
 
+//
+
 class ToDoList {
   var path = '${Directory.current.path}\\data\\todo_list.json';
 
