@@ -1,14 +1,1 @@
-[
-  {
-    "id": 1,
-    "title": "Hello",
-    "text": "World",
-    "type": "ToDoTypes.plain"
-  },
-  {
-    "id": 2,
-    "title": "Astler",
-    "text": "Astler is GOD!",
-    "type": "ToDoTypes.plain"
-  }
-]
+[{"id":1,"title":"Hello","text":"World","type":"ToDoTypes.plain"},{"id":5,"title":"Sport day","text":"Running","day_of_week":"DayOfWeek.friday","type":"ToDoTypes.recurring"},{"id":6,"title":"Buy new hat","text":"I lost my oldhat, so I need to buy a new one...","type":"ToDoTypes.plain"},{"id":7,"title":"Shopping!","text":"Weekly shopping time!!!","day_of_week":"DayOfWeek.sunday","type":"ToDoTypes.recurring"},{"id":16,"title":"P1","text":"Plain 1","type":"ToDoTypes.plain"},{"id":17,"title":"Rec 1","text":"TODO","day_of_week":"DayOfWeek.thursday","type":"ToDoTypes.recurring"},{"id":18,"title":"P2","text":"Plain TWO!","type":"ToDoTypes.plain"},{"id":20,"title":"Do something!","text":"BOB!","type":"ToDoTypes.plain"}]

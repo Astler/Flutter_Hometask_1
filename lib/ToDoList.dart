@@ -8,7 +8,7 @@ var appDataFile = '${Directory.current.path}\\data\\app_data.json';
 class ToDoList {
   var path = '${Directory.current.path}\\data\\todo_list.json';
 
-  List<dynamic> getAllItems() {
+  List<dynamic> getAllTasks() {
     var file_data = File(path).readAsStringSync();
 
     if (file_data.isNotEmpty) {
@@ -20,15 +20,53 @@ class ToDoList {
     }
   }
 
-  void addNewItem(ToDoItem item) {
-    var items = getAllItems();
+  Map<int, dynamic> getAllTasksMap() {
+    var file_data = File(path).readAsStringSync();
+
+    var map = <int, dynamic>{};
+
+    if (file_data.isNotEmpty) {
+      var notes = jsonDecode(file_data).map((i) => decodeItemsList(i));
+
+      for (var note in notes) {
+        map[note.id] = note;
+      }
+
+      return map;
+    } else {
+      return Map.identity();
+    }
+  }
+
+  void addNewTask(Task item) {
+    var items = getAllTasks();
     items.add(item);
     writeItemsToFile(items);
   }
 
-  void addFewItems() {}
+  void addFewTasks(List<dynamic> tasks) {
+    var items = getAllTasks();
+    items.addAll(tasks);
+    writeItemsToFile(items);
+  }
 
-  void deleteItem(String id) {}
+  void deleteItem(int id) {
+    var items = getAllTasksMap();
+
+    var item = items[id];
+    var data = getToDoListData();
+
+    if (item is RecurringToDoItem) {
+      data.deletedRecurringToDos += 1;
+    } else {
+      data.deletedPlainToDos += 1;
+    }
+
+    updateToDoListData(data);
+
+    items.remove(id);
+    writeItemsToFile(items.values.toList());
+  }
 
   void currentListSummary() {}
 
@@ -40,18 +78,15 @@ class ToDoList {
 void checkDataFile() {
   if (File(appDataFile).existsSync()) {
     //OK
-  }
-  else {
-    File(appDataFile).writeAsStringSync(
-        jsonEncode(ToDoListData(0, 0, 0, 0, 0)));
+  } else {
+    File(appDataFile)
+        .writeAsStringSync(jsonEncode(ToDoListData(0, 0, 0, 0, 0)));
   }
 }
 
 ToDoListData getToDoListData() {
   var file_data = File(appDataFile).readAsStringSync();
-
-  print(file_data);
-
+  //print(file_data);
   return ToDoListData.fromJson(jsonDecode(file_data));
 }
 
@@ -67,11 +102,8 @@ class ToDoListData {
   int deletedPlainToDos;
   int deletedRecurringToDos;
 
-  ToDoListData(this.nextId,
-      this.createdPlainToDos,
-      this.createdRecurringToDos,
-      this.deletedPlainToDos,
-      this.deletedRecurringToDos);
+  ToDoListData(this.nextId, this.createdPlainToDos, this.createdRecurringToDos,
+      this.deletedPlainToDos, this.deletedRecurringToDos);
 
   factory ToDoListData.fromJson(dynamic json) {
     return ToDoListData(
@@ -82,8 +114,7 @@ class ToDoListData {
         json['deletedRecurringToDos'] as int);
   }
 
-  Map toJson() =>
-      {
+  Map toJson() => {
         'nextId': nextId,
         'createdPlainToDos': createdPlainToDos,
         'createdRecurringToDos': createdRecurringToDos,
