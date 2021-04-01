@@ -9,43 +9,8 @@ void main(List<String> arguments) {
 
   todo_list.checkDataFile();
 
-  todo_list.ToDoList toDoList = todo_list.ToDoList();
-  //
-  // List<ToDoItem> itemsList = toDoList.getAllItems();
-  //
-  // String objText = '{"id": 300, "title": "Astler is God!", "text": "Astler is God! YEEEEEEES!"}';
-  //
-  // var item = RecurringToDoItem.fromJson(jsonDecode(objText));
-  // var item2 = RecurringToDoItem(300, 'God', 'Astler is God', DayOfWeek.monday);
-  //
-  // print('Hello world: ${itemsList.length}!');
-  // print('Hello world: ${item.getNoteData()}!');
-  // print('Hello world: ${item2.getNoteData()}!');
-  // print('Hello world: ${item2.getNoteData()}!');
-  // print('Hello world: ${item2.toJson()}!');
-  // print('Hello world: ${jsonEncode(item2.toJson())}!');
-  //
-  // var item3 = RecurringToDoItem.fromJson(jsonDecode(jsonEncode(item2.toJson())));
-  // print('Hello world: ${item3.getNoteData()}!');
-  // print('Hello world: ${hw1.calculate()}!');
-  //
-  // String objArray = '['
-  //     '{"id": 300, "title": "Astler is God!", "text": "Astler is God! YEEEEEEES!"},'
-  //     '{"id": 301, "title": "Astler is God!", "text": "Astler is God! YEEEEEEES!", "day_of_week": "DayOfWeek.monday"},'
-  //     '{"id": 302, "title": "Astler is God!", "text": "Astler is God! YEEEEEEES!"},'
-  //     '{"id": 303, "title": "Astler is God!", "text": "Astler is God! YEEEEEEES!"} ]';
-  //
-  // var notes = jsonDecode(objArray).map((i) => decodeItemsList(i)).toList();
-  //
-  //  print(jsonDecode(objArray));
-  //  print(notes);
-  //
-  //  print(jsonEncode(notes));
-  //
-  // stdout.writeln('Type something');
-  // String input = stdin.readLineSync();
-  // stdout.writeln('You typed: $input');
-  //
+  var toDoList = todo_list.ToDoList();
+
   var task = 0;
 
   while (task != -1) {
