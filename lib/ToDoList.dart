@@ -39,15 +39,30 @@ class ToDoList {
   }
 
   void addNewTask(Task item) {
-    var items = getAllTasks();
-    items.add(item);
-    writeItemsToFile(items);
+    if (item != null) {
+      var items = getAllTasks();
+      items.add(item);
+      writeItemsToFile(items);
+    }
   }
 
   void addFewTasks(List<dynamic> tasks) {
     var items = getAllTasks();
-    items.addAll(tasks);
-    writeItemsToFile(items);
+
+    var data = getToDoListData();
+
+    for (var item in tasks) {
+      if (item is RecurringToDoItem) {
+        data.createdRecurringToDos += 1;
+      } else {
+        data.createdPlainToDos += 1;
+      }
+    }
+
+    updateToDoListData(data);
+
+    var newItemsList = [...items, ...?tasks];
+    writeItemsToFile(newItemsList);
   }
 
   void deleteItem(int id) {
@@ -73,25 +88,25 @@ class ToDoList {
   void writeItemsToFile(List<dynamic> items) {
     File(path).writeAsStringSync(jsonEncode(items));
   }
-}
 
-void checkDataFile() {
-  if (File(appDataFile).existsSync()) {
-    //OK
-  } else {
-    File(appDataFile)
-        .writeAsStringSync(jsonEncode(ToDoListData(0, 0, 0, 0, 0)));
+  void checkDataFile() {
+    if (File(appDataFile).existsSync()) {
+      //OK
+    } else {
+      File(appDataFile)
+          .writeAsStringSync(jsonEncode(ToDoListData(0, 0, 0, 0, 0)));
+    }
   }
-}
 
-ToDoListData getToDoListData() {
-  var file_data = File(appDataFile).readAsStringSync();
-  //print(file_data);
-  return ToDoListData.fromJson(jsonDecode(file_data));
-}
+  ToDoListData getToDoListData() {
+    var file_data = File(appDataFile).readAsStringSync();
+    //print(file_data);
+    return ToDoListData.fromJson(jsonDecode(file_data));
+  }
 
-void updateToDoListData(ToDoListData data) {
-  File(appDataFile).writeAsStringSync(jsonEncode(data));
+  void updateToDoListData(ToDoListData data) {
+    File(appDataFile).writeAsStringSync(jsonEncode(data));
+  }
 }
 
 class ToDoListData {

@@ -9,6 +9,48 @@ enum DayOfWeek {
   sunday
 }
 
+extension DayOfWeekExtension on DayOfWeek {
+  String get shortName {
+    switch (this) {
+      case DayOfWeek.monday: return 'm';
+      case DayOfWeek.tuesday: return 'tu';
+      case DayOfWeek.wednesday: return 'w';
+      case DayOfWeek.thursday: return 'th';
+      case DayOfWeek.friday: return 'f';
+      case DayOfWeek.saturday: return 'sa';
+      case DayOfWeek.sunday: return 'su';
+      default:
+        return null;
+    }
+  }
+}
+
+DayOfWeek dayOfWeekByString(String day) {
+  var day_st = DayOfWeek.monday;
+
+  switch (day) {
+    case 'tu':
+      day_st = DayOfWeek.tuesday;
+      break;
+    case 'w':
+      day_st = DayOfWeek.wednesday;
+      break;
+    case 'th':
+      day_st = DayOfWeek.thursday;
+      break;
+    case 'f':
+      day_st = DayOfWeek.friday;
+      break;
+    case 'sa':
+      day_st = DayOfWeek.saturday;
+      break;
+    case 'su':
+      day_st = DayOfWeek.sunday;
+      break;
+  }
+
+  return day_st;
+}
 
 DayOfWeek getDayFromString(String day) {
   for (var element in DayOfWeek.values) {
@@ -29,10 +71,12 @@ ToDoTypes getNoteTypeFromString(String day) {
 }
 
 ToDoItem decodeItemsList(dynamic json) {
+  print(json);
+  print(json['id']);
+  print(json['day_of_week']);
   if (json['day_of_week'] != null) {
     return RecurringToDoItem.fromJson(json);
-  }
-  else {
+  } else {
     return PlainToDoItem.fromJson(json);
   }
 }
@@ -47,8 +91,7 @@ class Task {
 
   String getNoteData() => '';
 
-  Map toJson() =>
-      {
+  Map toJson() => {
         'id': id,
         'title': title,
         'text': text,
@@ -58,10 +101,10 @@ class Task {
 
 abstract class ToDoItem implements Task {
   @override
-  int get id =>_id;
+  int get id => _id;
 
   @override
-  ToDoTypes get type =>_type;
+  ToDoTypes get type => _type;
 
   @override
   String get text => _text;
@@ -91,12 +134,11 @@ abstract class ToDoItem implements Task {
     title = _title;
   }
 
-  Map toJson() =>
-      {
-        'id': id,
-        'title': title,
-        'text': text,
-        'type': type.toString(),
+  Map toJson() => {
+        if (id is int) 'id': id,
+        if (title is String) 'title': title,
+        if (title is String) 'text': text,
+        if (type is ToDoTypes) 'type': type.toString()
       };
 
   @override
@@ -108,18 +150,15 @@ class PlainToDoItem extends ToDoItem {
 
   factory PlainToDoItem.fromJson(dynamic json) {
     return PlainToDoItem(
-        json['id'] as int,
-        json['title'] as String,
-        json['text'] as String);
+        json['id'] as int, json['title'] as String, json['text'] as String);
   }
 
   @override
-  Map toJson() =>
-      {
-        'id': id,
-        'title': title,
-        'text': text,
-        'type': type.toString(),
+  Map toJson() => {
+        if (id is int) 'id': id,
+        if (title is String) 'title': title,
+        if (title is String) 'text': text,
+        if (type is ToDoTypes) 'type': type.toString()
       };
 }
 
@@ -138,15 +177,15 @@ class RecurringToDoItem extends ToDoItem {
   }
 
   @override
-  Map toJson() =>
-      {
-        'id': id,
-        'title': title,
-        'text': text,
-        'day_of_week': dayOfWeek.toString(),
-        'type': type.toString(),
+  Map toJson() => {
+        if (id is int) 'id': id,
+        if (title is String) 'title': title,
+        if (title is String) 'text': text,
+        if (dayOfWeek is DayOfWeek) 'day_of_week': dayOfWeek.toString(),
+        if (type is ToDoTypes) 'type': type.toString()
       };
 
   @override
-  String getNoteData() => 'id = $id -> $title: $text \t DAY OF WEEK: $dayOfWeek';
+  String getNoteData() =>
+      'id = $id -> $title: $text \t DAY OF WEEK: $dayOfWeek';
 }
